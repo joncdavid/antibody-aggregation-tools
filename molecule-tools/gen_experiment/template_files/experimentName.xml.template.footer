@@ -1,0 +1,67 @@
+         </boundary>
+      </robot>
+    </environment>
+
+    <distance_metrics>
+      <scaledEuclidean Label= "scaledEuclidean" scale ="0.5"/>
+      <euclidean Label="euclidean"/>
+      <rmsd Label="rmsd" />
+      <lp_swept Label="lp_swept" pos_res='5' ori_res='5' use_bbox="true">
+        <lp_methods>
+          <straightline Label="dm_lp" length="0" binary_search="0"/>
+        </lp_methods>
+      </lp_swept>      
+      <binary_lp_swept Label="bp_swept" pos_res='5' ori_res='5' use_bbox="true">
+        <lp_methods>
+          <straightline Label="dm_lp" length="0" binary_search="0"/>
+        </lp_methods>
+      </binary_lp_swept> 
+    </distance_metrics>
+
+    <validity_test>    
+      <CollisionDetection Label="cd1" method="RAPID" />
+      <CollisionDetection Label="cd2" method="PQP" />
+      <CollisionDetection Label="cd3" method="VCLIP" />   
+    </validity_test>
+
+    <NeighborhoodFinder>
+      <BFNF Label="BFNF" dm_method="euclidean"/>
+    </NeighborhoodFinder>
+    
+    <MPRegions/>
+
+  </MPProblem>
+  
+  <MPStrategy>  
+
+    <node_generation_methods>
+      <UniformRandomFreeSampler Label="UniformRandomFree" vc_method="cd1" />
+    </node_generation_methods>
+
+    <connection_methods>
+      <NeighborhoodConnection Label="Closest" nf="BFNF" k="10" CheckIfSameCC="false"/>
+      <ConnectCCs Label="ConnectCCs" smallcc="5" kpairs="2" nf="BFNF"/>
+    </connection_methods>
+
+    <lp_methods>
+      <straightline Label="sl" length="0" binary_search="1" vc_method="cd1"/>
+    </lp_methods>
+    
+    <MPEvaluator_methods>
+      <MPRegionConditionalEvaluators>
+        <TestEvaluation Label="TestEval" size="666" dm_method="euclidean"/>
+      </MPRegionConditionalEvaluators>
+    </MPEvaluator_methods>
+
+    <MPStrategyMethod Controller="PRM1">
+      <MoleculeStrategy Label="PRM1" seed="__TMPL_SEED__" filename="Molecule" iterations="1" num_samples="666" dm_method="euclidean" timeSteps="__TMPL__TIMESTEPS__" >
+        <node_generation_method Method="UniformRandomFree"/>
+        <node_connection_method Method="Closest"/>
+        <initial_dist_method Method="grid"/>
+        <validity_checker vc_method="cd1"/>
+      </MoleculeStrategy>
+    </MPStrategyMethod>
+
+  </MPStrategy>
+
+</motion_planning>

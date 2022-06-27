@@ -1,0 +1,250 @@
+* DONE Read from file
+** DONE define a domain specific language that can describe what you want in the experiment
+** DONE define a data structure that can represent what you want in an experiment
+*** DONE ExperimentParameters
+** DONE define a script that can interpret that language
+*** DONE ExperimentDeclaration
+** DONE define a script that can read in a file and produce a representation of experiment parameters
+*** DONE ExperimentDeclaration
+
+* TODO Generate Directory Structure
+** Create run-experimentName directory
+This directory is the base directory of the experiment. Under this directory are the "DATA" and "BIN" directories; the "experimentName/" directory (which contains subdirectories for specific runs); and the CARC scripts used to run the experiments.
+** Create experimentName directory
+This directory contains subdirectories for specific runs.
+** Create experimentName-runID directories
+These directories represent specific runs, and contain the input files described below.
+
+* DONE Generate Legacy Input Files
+
+** DONE colortool.cfg
+This file is responsible for assigning a label for each molecule model. The labels are later used by Vizmo++ to assign different colors. I do not believe this is used by the simulation code--only by Vizmo++. Therefore, I do not think it is necessary to produce this file.
+#+BEGIN_EXAMPLE
+../../DATA/ige
+0
+../../DATA/rec
+0
+../../DATA/rfo
+1
+../../DATA/df3
+1
+../../DATA/par
+2
+../../DATA/dct
+3
+../../DATA/pen
+5
+../../DATA/jun
+6
+#+END_EXAMPLE
+
+** DONE MoleculeDetails.t
+This file is still relevant today. The first line is the scaling factor. The second line says how many different types of molecules there are. From then on there are pairs of lines: the first says where the mole file for that model is located; the second is how many of that molecule there are.
+
+#+BEGIN_EXAMPLE
+0.1   ## note: unfortunately, this is still hard coded. our models are scaled down to 0.1.
+3
+../../DATA/igefceri_0.1_0.00.mole
+20
+../../DATA/myo1n1cv4.mole
+10
+../../DATA/myo1n1cv5.mole
+10
+#+END_EXAMPLE
+
+** DONE experimentName.env
+This file is responsible for letting the simulator where the model files (.g) files are located. The first line specifies the total number of molecules. The second line is blank. I don't know if that is acting as a marker or not so leave it alone. From then on 4-lines are used to specify information on a specific molecule. Don't mess with it. The only thing you might need to change is the name of the model files (.g) files.
+
+#+BEGIN_EXAMPLE
+# Environment Version 20130201
+40
+
+## note: there are 20 of these...
+MultiBody Active
+1
+FreeBody 0 ../../DATA/igefceri_0.1_0.00.g 0 0 0 0 0 0 Connection
+0
+
+## note: there are 10 of these...
+MultiBody Active
+1
+FreeBody 0 ../../DATA/myo1n1cv4.g 0 0 0 0 0 0 Connection
+0
+
+## note: there are 10 of these...
+MultiBody Active
+1
+FreeBody 0 ../../DATA/myo1n1cv5.g 0 0 0 0 0 0 Connection
+0
+
+#+END_EXAMPLE
+
+** DONE experimentName\__v.env
+This file is responsible for assigning moleculeID values to each model. The first line represents... IDK; the second line is blank, I'm not sure if this is a marker or not; the third line is "MultiBody Active" and I think that's a PMPL specific thing so just leave it the same. The fourth line is the total number of molecules. After that we have a list of lines with the format "FreeBody <moleculeID> <locationOfGFile> [0 0 0 0 0 0]". Then the penultimate line is "Connection". And finally the last line is 0.
+
+#+BEGIN_EXAMPLE
+1
+
+MultiBody Active
+40
+FreeBody 0 ../../DATA/igefceri_0.1_0.00.g 0 0 0 0 0 0
+FreeBody 1 ../../DATA/igefceri_0.1_0.00.g
+FreeBody 2 ../../DATA/igefceri_0.1_0.00.g
+# ...
+FreeBody 20 ../../DATA/myo1n1cv4.g
+FreeBody 21 ../../DATA/myo1n1cv4.g
+# ...
+FreeBody 30 ../../DATA/myo1n1cv4.g
+FreeBody 31 ../../DATA/myo1n1cv4.g
+# ...
+FreeBody 39 ../../DATA/myo1n1cv4.g
+Connection
+0
+#+END_EXAMPLE
+
+** DONE experimentName.xml
+
+#+BEGIN_EXAMPLE
+<?xml version="1.0" encoding="UTF-8"?>
+<motion_planning>
+  <MPProblem>
+
+    <environment input_env="EXPERIMENTNAME.env">
+      ## note: pos_dof="120" is derived from num_robots * 3 (e.g. 40*3 = 120)
+      ## note: dofs="240" is derived from 2*pos_dof
+      <robot Cfg_name="Cfg_free_multi_3dof" num_joins="0" pos_dof="120" dofs="240">
+        <boundary type="bbox" translational_scale="1">
+          
+          ## note: this is where minXZ and maxXZ are used
+          <parameter id="0" Label="x1" type="translational" min="-100.0" max="100.0" />
+          ## note: this y-range is hard-coded... so leave it be for now...
+          <parameter id="1" Label="y1" type="translational" min="-50" max="200" />
+          <parameter id="2" Label="z1" type="translational" min="-100.0" max=""100.0" />
+          ## ...
+          <parameter id="117" Label="x40" type="translational" min="-100.0" max="100.0" />
+          <parameter id="118" Label="y40" type="translational" min="-50" max="200" />
+          <parameter id="119" Label="z40" type="translational" min="-100.0" max="100.0" />
+        </boundary>
+      </robot>
+    </environment>
+
+    ## note: our experiments don't change any of this so just use as is...
+    <distance_metrics>
+      <scaledEuclidean Label="scaledEuclidean" scale="0.5" />
+      <euclidean Label="euclidean" />
+      <rmsd Label="rmsd" />
+      <lp_swept Label="lp_swept" pos_res="5" ori_res="5" use_bbox="true">
+        <lp_methods>
+          <straightline Label="dm_lp" length="0" binary_search="0" />
+        </lp_methods>
+      </lp_swept>
+      <binary_lp_swept Label="bp_swept" pos_res="5" ori_res="5" use_bbox="true">
+        <lp_methods>
+          <straightline Label="dm_lp" length="0" binary_search="0" />
+        </lp_methods>
+      </binary_lp_swept>
+    </distance_metrics>
+
+    ## note: we don't change any of this so use as is...
+    <validity_test>
+      <CollisionDetection Label="cd1" method="RAPID" />
+      <CollisionDetection Label="cd2" method="PQP" />
+      <CollisionDetection Label="cd3" method="VCLIP" />
+    </validity_test>
+
+    ## note: don't change--use as is...
+    <NeighborhoodFinder>
+      <BFNF Label="BFNF" dm_method="euclidean" />
+    </NeighborhoodFinder>
+
+    ## note: don't change--use as is...
+    <MPRegions />
+  </MPProblem>
+
+  <MPStrategy>
+
+    ## note: don't change--use as is...
+    <node_generation_methods>
+      <UniformRandomFreeSampler Label="UniformRandomFree" vc_method="cd1" />
+    </node_generation_methods>
+
+    ## note: don't change--use as is...
+    <connection_methods>
+      <NeighborhoodConnection Label="Closest" nf="BFNF" k="10" CheckIfSameCC="false />
+      <ConnectCCs Label="ConnectCCs" smallcc="5" kpairs="2" nf="BFNF" />
+    </connection_methods>
+
+    ## note: don't change--use as is...
+    <lp_methods>
+      <straightline Label="s1" length="0" binary_search="1" vc_method="cd1" />
+    </lp_methods>
+
+    ## note: don't change--use as is...
+    <MPEvaluator_methods>
+      <MPRegionConditionalEvaluators>
+        <TestEvaluation Label="TestEval" size="666" dm_method="euclidean" />
+      </MPRegionConditionalEvaluators>
+    </MPEvaluator_methods>
+
+    ## note: we do change timeSteps
+    <MPStrategyMethod Controller="PRM1">
+      ## note: ok here we change timeSteps
+      <MoleculeStrategy Label="PRM1" seed="0" filename="Molecule" iterations="1" num_samples="666" dm_method="euclidean" timeSteps="500000" >
+        <node_generation_method Method="UniformRandomFree" />
+        <node_connection_method Method="Closest" />
+      </MoleculeStrategy>
+    </MPStrategyMethod>
+
+  </MPStrategy>
+
+</motion_planning>
+#+END_EXAMPLE
+
+* Generate New Experiment Input Files
+** DONE bindingDefinitions.def
+This file describes which moleculeIDs are allowed to bind to each other. The first line describes how many pairs there are. Then what follows are pairs of lines where each line is a single moleculeID; together the pairs of lines describe which two moleculeIDs can bind to each other.
+
+#+BEGIN_EXAMPLE
+2
+50
+1234
+50
+1235
+#+END_EXAMPLE
+
+** DONE moleculeTypes.x.def
+These are a family of files, where x is the class of molecule types. For example, if we have two molecule types "ligand" and "receptor" then there will be two files: moleculeTypes.receptors.def and moleculeTypes.ligands.def.
+Each file is simply a list of moleculeIDs that belong to that molecule type.
+
+#+BEGIN_EXAMPLE
+1234
+1235
+#+END_EXAMPLE
+
+* Generate CARC script files
+** full run scrips
+
+#+BEGIN_EXAMPLE
+#PBS -l nodes=1:ppn=16
+#PBS -l walltime=72:00:00
+#PBS -N __TMPL_EXP_NAME__-__TMPL_MINRUN__-__TMPL_MAXRUN__
+#PBS -S /bin/bash
+
+##lpgcmd=./lpgcmd
+##echo "lpgcmd: $lpgcmd"
+echo "PBS_O_WORKDIR: $PBS_O_WORKDIR"
+echo ""
+
+##PBS_O_WORKDIR=.  ### if not working on Gibbs, then uncomment this; if working on Gibbs, comment it.
+
+projname=__TMPL_EXP_NAME__
+basedir=./$projname/$projname  ## relative to $PBS_O_WORKDIR
+exe=$PBS_O_WORKDIR/../molecule
+
+cd $PBS_O_WORKDIR
+cd ${basedir}___TMPL_RUN_ID__/
+pwd
+echo "Running experiment __TMPL_RUN_ID__..."
+$exe -f ${projname}___TMPL_RUN_ID__.xml > output.txt &
+echo
+#+END_EXAMPLE
