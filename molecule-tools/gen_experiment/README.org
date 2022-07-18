@@ -1,0 +1,16 @@
+
+* Usage
+python3 gen_experiment <experiment-declaration-file>
+
+An example <experiment-declaration-file> can be found in [[./declarations/example.experiment.declaration][example.experiment.declaration]]
+The resulting experiment can be found in the [[./Experiment/][./Experiment]] directory.
+
+
+* Model Type IDs
+Below is a table of models and their modelTypeIDs. The users of this tool are expected to update this table as new models are added so that we know which modelIDs are associated with models.
+
+| ModelName | MoleculeTypeID |
+|-----------+----------------|
+| myo1n1cV4 |           1234 |
+| myo1n1cV5 |           1235 |
+

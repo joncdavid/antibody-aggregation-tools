@@ -1,5 +1,15 @@
 #!/usr/bin/env python3
 
+#---------------------------------------------------------------------
+# file: genf_experimentNameDotXml.py
+# author: Jon David (jdavid@cs.unm.edu)
+# date: June 2022
+# description:
+#   Responsible for creating the file <experimentName>.xml (or
+#   <experimentName>_<runID>.xml for experiments with many runs).
+#---------------------------------------------------------------------
+
+
 import sys
 
 from experiment_parameters import ExperimentParameters

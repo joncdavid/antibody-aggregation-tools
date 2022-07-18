@@ -1,5 +1,14 @@
 #!/usr/bin/env python3
 
+#---------------------------------------------------------------------
+# file: genf_moleculeDetailsDotT.py
+# author: Jon David (jdavid@cs.unm.edu)
+# date: June 2022
+# description:
+#   Creates the file "MoleculeDetails.t"
+#---------------------------------------------------------------------
+
+
 import sys
 
 from experiment_parameters import ExperimentParameters

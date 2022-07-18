@@ -1,5 +1,14 @@
 #!/usr/bin/env python3
 
+#---------------------------------------------------------------------
+# file: gen_experiment.py
+# author: Jon David (jdavid@cs.unm.edu)
+# date: June 2022
+# description:
+#   The "main" script to rule them all.
+#---------------------------------------------------------------------
+
+
 import sys
 import os
 

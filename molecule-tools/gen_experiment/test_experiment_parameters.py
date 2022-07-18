@@ -1,5 +1,15 @@
 #!/usr/bin/env python3
 
+#---------------------------------------------------------------------
+# file: test_experiment_parameters.py
+# author: Jon David (jdavid@cs.unm.edu)
+# date: June 2022
+# description:
+#   To test to make sure the representation of an experiment
+#   is functioning correctly.
+#---------------------------------------------------------------------
+
+
 import unittest
 
 from experiment_parameters import ExperimentParameters

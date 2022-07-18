@@ -1,5 +1,14 @@
 #!/usr/bin/env python3
 
+#---------------------------------------------------------------------
+# file: genf_bindingDefinitionsDotDef.py
+# author: Jon David (jdavid@cs.unm.edu)
+# date: June 2022
+# description:
+#   Responsible for creating the file "bindingDefinitions.def"
+#---------------------------------------------------------------------
+
+
 import sys
 
 from experiment_parameters import ExperimentParameters

@@ -1,5 +1,15 @@
 #!/usr/bin/env python3
 
+#---------------------------------------------------------------------
+# file: genf_carc_run_scripts.py
+# author: Jon David (jdavid@cs.unm.edu)
+# date: June 2022
+# description:
+#   Responsible for creating the scripts that are submitting to
+#   CARC as jobs to be run on their machines.
+#---------------------------------------------------------------------
+
+
 import sys
 import math
 
