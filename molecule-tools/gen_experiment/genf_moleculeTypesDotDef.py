@@ -29,7 +29,7 @@ if __name__ == "__main__":
     p = d.load_from_file(fname)
 
     genf = GenFileMoleculeTypesDotDef( p )
-    genf.write_all_files( ".", "moleculeType.{}.def" )
+    genf.write_all_files( ".", "moleculeTypes.{}s.def" )
     
     #for moleculeType in p.listOfMoleculeTypes:
     #    fname = "moleculeType.{}.def".format(moleculeType)

@@ -31,16 +31,26 @@ class GenFileCarcRunScripts(GenFileGeneric):
         for runID in range(minRunID, maxRunID):
             f.write( "\n" )
             f.write( "cd $PBS_O_WORKDIR\n" )
-            f.write( "cd ${{basedir}}_{}/\n".format( runID ) )
+            f.write( "pwd\n" )
+            f.write( "experiment{}_dir=$(echo ${{basedir}}_{})\n".format( runID, runID ))
+            f.write( "echo \"experiment{}_dir: \" $experiment{}_dir\n".format( runID, runID ))
+            f.write( "cd $experiment{}_dir\n".format( runID ) )
             f.write( "pwd\n" )
             f.write( "echo \"Running experiment {}...\"\n".format( runID ))
             f.write( "$exe -f ${{projname}}_{}.xml > output.txt &\n".format( runID ))
             f.write( "echo\n" )
 
+    def _helper_write_footer( self, f ):
+        f.write ( "\n" )
+        f.write( "\necho \"Waiting for all experiments to terminate...\" \n" )
+        f.write( "wait\n" )
+        f.write( "echo \"Done.\" \n\n" )
+
     def _helper_write_file(self, fname, minRunID, maxRunID, template_header ):
         f = open(fname, "w")
         self._helper_write_header( f, minRunID, maxRunID, template_header )
         self._helper_write_body( f, minRunID, maxRunID )
+        self._helper_write_footer( f )
         f.close()
         
     def write_file(self, fname_base, template_header):

@@ -33,13 +33,14 @@ def populate_runIDDir( p, runIDDir, runID ):
     genf_moleculeTypesDotDef = GenFileMoleculeTypesDotDef( p )
 
     genf_moleculeDetails.write_file( "{}/MoleculeDetails.t".format( runIDDir ))
-    genf_experimentNameDotEnv.write_file( "{}/{}.env".format( runIDDir, experimentName ))
-    genf_experimentNameVDotEnv.write_file( "{}/{}_v.env".format( runIDDir, experimentName ))
-    genf_experimentNameDotXml.write_file( "{}/{}.xml".format( runIDDir, experimentName ),
+    genf_experimentNameDotEnv.write_file( "{}/{}_{}.env".format( runIDDir, experimentName, runID ))
+    genf_experimentNameVDotEnv.write_file( "{}/{}_{}_v.env".format( runIDDir, experimentName, runID ))
+    genf_experimentNameDotXml.write_file( "{}/{}_{}.xml".format( runIDDir, experimentName, runID ),
+                                          runID,
                                           tmpl_xml_header,
                                           tmpl_xml_footer )
     genf_bindingDefinitionsDotDef.write_file( "{}/bindingDefinitions.def".format( runIDDir ) )
-    genf_moleculeTypesDotDef.write_all_files( runIDDir, "moleculeType.{}.def")
+    genf_moleculeTypesDotDef.write_all_files( runIDDir, "moleculeTypes.{}s.def")  ## note: the s before s.def...
 
 def create_dirStructure( p ):
     """p is an ExperimentParameters object."""

@@ -39,5 +39,5 @@ if __name__ == "__main__":
     p = d.load_from_file(fname)
 
     genf = GenFileExperimentNameVDotEnv( p )
-    genf.write_file("experimentName_v.env")
+    genf.write_file("experimentName_0_v.env")
 

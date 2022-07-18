@@ -11,19 +11,19 @@ class GenFileExperimentNameDotXml(GenFileGeneric):
     def __init__(self, exp_params ):
         super().__init__( exp_params )
 
-    def _write_header(self, fout, template_file):
-        experimentName = self.p.experimentName
+    def _write_header(self, fout, runID, template_file):
+        experimentNameWithRunID = "{}_{}".format(self.p.experimentName, runID)
         totalNumMolecules = self._get_totalNumMolecules()
         pos_dof_val = 3 * totalNumMolecules
         dofs_val = 2 * pos_dof_val
 
-        s1 = "__TMPL_EXP_NAME__"
+        s1 = "__TMPL_EXP_NAME_WITH_RUNID__"
         s2 = "__TMPL_POS_DOF__"
         s3 = "__TMPL_DOFS__"
 
         fin = open(template_file, "r")
         for line in fin:
-            line = line.replace( s1, experimentName )
+            line = line.replace( s1, experimentNameWithRunID )
             line = line.replace( s2, str(pos_dof_val) )
             line = line.replace( s3, str(dofs_val) )
             fout.write( line )
@@ -36,7 +36,7 @@ class GenFileExperimentNameDotXml(GenFileGeneric):
         minY = -50
         maxY = 200
         totalNumMolecules = self._get_totalNumMolecules()
-        for index in range(0,3*totalNumMolecules):
+        for index in range(0, 3*totalNumMolecules):
             (r,label) = _get_label( index )
             if (r == 1):
                 minVal = minY
@@ -46,7 +46,13 @@ class GenFileExperimentNameDotXml(GenFileGeneric):
                 maxVal = maxXZ
             else:
                 raise Exception("[ERROR], should not reach this section.")
-            f.write( "<parameter id=\"{}\" Label=\"{}\" type=\"translational\" min=\"{}\" max=\"{}\" />\n".format(index, label, minVal, maxVal) )
+            body_str = "{}<parameter id=\"{}\" Label=\"{}\" type=\"translational\" min=\"{}\" max=\"{}\" />\n"
+            indentSpace = " "
+            indentString = ""
+            indentLevel = 5
+            for i in range(0, indentLevel):
+                indentString = indentString + indentSpace + indentSpace
+            f.write( body_str.format(indentString, index, label, minVal, maxVal) )
 
 
     def _write_footer(self, fout, template_file):
@@ -63,10 +69,10 @@ class GenFileExperimentNameDotXml(GenFileGeneric):
         
         return
 
-    def write_file(self, fname, template_header, template_footer):
+    def write_file(self, fname, runID, template_header, template_footer):
         f = open(fname, "w")
 
-        self._write_header(f, template_header)
+        self._write_header(f, runID, template_header)
         self._write_body(f)
         self._write_footer(f, template_footer)
         
@@ -76,7 +82,8 @@ class GenFileExperimentNameDotXml(GenFileGeneric):
 
 def _get_label(index):
     r_dict = { 0:"x", 1:"y", 2:"z" }
-    moleculeTypeID = index // 3
+    ## note: mind the +1; its dumb because labels are 1-indexed, but parameter-id's are zero-indexed
+    moleculeTypeID = (index // 3) + 1
     r = index % 3
     component = r_dict[r]
     label = "{}{}".format(component, moleculeTypeID)
