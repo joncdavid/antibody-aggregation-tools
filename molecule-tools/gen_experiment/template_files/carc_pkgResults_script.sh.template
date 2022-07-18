@@ -1,0 +1,23 @@
+#PBS -l nodes=1:ppn=3
+#PBS -l walltime=01:00:00
+#PBS -N cpMFilesOnly
+#PBS -S /bin/bash
+
+echo "PBS_O_WORKDIR: $PBS_O_WORKDIR"
+echo ""
+
+##expName=my100GrpOne20R10L10M
+expName=__TMPL_EXP_NAME__
+resultsOnly=$expName-resultsOnly
+outTarFName=$resultsOnly.tar
+
+cd $PBS_O_WORKDIR
+
+mkdir $resultsOnly   ## create directory if it doesn't already exist
+find . -name "*.m" -o -name "*.data" -o "*.fl" | xargs cp --parents -t $resultsOnly
+tar cf $outTarFName $resultsOnly
+
+echo "Finished copying ALL m-files to: " $resultsOnly
+echo "Created TAR file: " $outTarFName
+wait
+echo "Done."

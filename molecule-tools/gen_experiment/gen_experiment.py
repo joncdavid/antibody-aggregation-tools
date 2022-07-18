@@ -6,6 +6,7 @@ import os
 from experiment_parameters import ExperimentParameters
 from experiment_declaration import ExperimentDeclaration
 from genf_carc_run_scripts import GenFileCarcRunScripts
+from genf_carc_pkgData_script import GenFileCarcPkgDataScript
 from genf_moleculeDetailsDotT import GenFileMoleculeDetailsDotT
 from genf_experimentNameDotEnv import GenFileExperimentNameDotEnv
 from genf_experimentNameVDotEnv import GenFileExperimentNameVDotEnv
@@ -14,12 +15,22 @@ from genf_bindingDefinitionsDotDef import GenFileBindingDefinitionsDotDef
 from genf_moleculeTypesDotDef import GenFileMoleculeTypesDotDef
 
 
+
 def populate_runDir( p, runDir ):
     """Populates the base directory with CARC run scripts."""
-    fname_base = "{}/{}".format(runDir, p.experimentName)
-    template_file = "./template_files/carc_run_script.sh.template.header"
-    genf = GenFileCarcRunScripts( p )
-    genf.write_file( fname_base, template_file )
+    fname_run_base = "{}/{}".format(runDir, p.experimentName)
+    fname_pkgResults_base = "{}/{}".format( runDir, p.experimentName )
+    
+    template_run_file = "./template_files/carc_run_script.sh.template.header"
+    template_pkgResults_file = "./template_files/carc_pkgResults_script.sh.template"
+    
+    genf_run = GenFileCarcRunScripts( p )
+    genf_pkgResults = GenFileCarcPkgDataScript( p )
+    
+    genf_run.write_file( fname_run_base, template_run_file )
+    genf_pkgResults.write_file( fname_run_base, template_run_filename )
+
+    
 
 def populate_runIDDir( p, runIDDir, runID ):
     experimentName = p.experimentName
