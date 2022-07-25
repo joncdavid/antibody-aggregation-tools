@@ -10,6 +10,9 @@ declare-moleculeTypeID-list 50 1234 1235
 declare-moleculeType-list receptor ligand
 
 # moleculeTypeID must already exist
+# WARNING: if count is 0, you must not declare that moleculeTypeID.
+#          if you do, you will trigger segfault when running code.
+#
 declare-moleculeTypeID-count 50 20
 declare-moleculeTypeID-count 1234 10
 declare-moleculeTypeID-count 1235 10
