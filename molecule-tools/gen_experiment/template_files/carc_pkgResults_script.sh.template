@@ -6,15 +6,14 @@
 echo "PBS_O_WORKDIR: $PBS_O_WORKDIR"
 echo ""
 
-##expName=my100GrpOne20R10L10M
 expName=__TMPL_EXP_NAME__
 resultsOnly=$expName-resultsOnly
 outTarFName=$resultsOnly.tar
 
-cd $PBS_O_WORKDIR
+cd $PBS_O_WORKDIR   ## comment me if not submitted via qsub.
 
 mkdir $resultsOnly   ## create directory if it doesn't already exist
-find . -name "*.m" -o -name "*.data" -o "*.fl" | xargs cp --parents -t $resultsOnly
+time nice find . -name "*.m" -o -name "*.data" -o "*.fl" | xargs cp --parents -t $resultsOnly
 tar cf $outTarFName $resultsOnly
 
 echo "Finished copying ALL m-files to: " $resultsOnly

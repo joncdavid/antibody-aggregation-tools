@@ -24,4 +24,3 @@ assign-moleculeTypeID-to-moleculeType 1234 ligand
 # optional, will read from database file if basename not defined here
 assign-moleculeTypeID-to-basename 50 igefceri_0.1_0.00
 assign-moleculeTypeID-to-basename 1234 myo1n1cV4
-

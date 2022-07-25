@@ -28,7 +28,7 @@ from genf_moleculeTypesDotDef import GenFileMoleculeTypesDotDef
 def populate_runDir( p, runDir, carcMachineName ):
     """Populates the base directory with CARC run scripts."""
     fname_run_base = "{}/{}".format(runDir, p.experimentName)
-    fname_pkgResults_base = "{}/{}".format( runDir, p.experimentName )
+    fname_pkgResults_base = "{}".format( runDir )
     
     template_run_file = "./template_files/carc_run_script.sh.template.header.{}".format( carcMachineName )
     template_pkgResults_file = "./template_files/carc_pkgResults_script.sh.template"
@@ -37,7 +37,7 @@ def populate_runDir( p, runDir, carcMachineName ):
     genf_pkgResults = GenFileCarcPkgDataScript( p )
     
     genf_run.write_file( fname_run_base, template_run_file )
-    genf_pkgResults.write_file( fname_run_base, template_run_filename )
+    genf_pkgResults.write_file( fname_run_base, template_pkgResults_file )
 
     
 
@@ -90,10 +90,10 @@ def main():
         exit(1)
         
     fname = sys.argv[1]
-    
-    carcMachineName = sys.argv[2]
-    if len(sys.argv) < 2:
-        carcMachineName = "gibbs"  ## default
+
+    carcMachineName = "gibbs"  ## default
+    if len(sys.argv) >= 2:
+        carcMachineName = sys.argv[2]    
 
     d = ExperimentDeclaration()
     p = d.load_from_file( fname )

@@ -13,8 +13,10 @@ class GenFileCarcPkgDataScript( GenFileGeneric ):
     def __init__(self, exp_params ):
         super().__init__( exp_params )
 
-    def write_file( self, fname_base, template_header ):
-        fout = open( fname, "w" )
+    def write_file( self, fname_run_base, template_header ):
+        foutName = "{}/runCpResultFilesOnly.sh".format(fname_run_base)
+        
+        fout = open( foutName, "w" )
         fin = open( template_header, "r" )
 
         s1 = "__TMPL_EXP_NAME__"
