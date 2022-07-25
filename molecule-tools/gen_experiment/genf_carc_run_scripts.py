@@ -9,8 +9,12 @@ from genf_generic import GenFileGeneric
 
 
 class GenFileCarcRunScripts(GenFileGeneric):
-    def __init__(self, exp_params ):
+    def __init__(self, exp_params, carcMachineName ):
         super().__init__( exp_params )
+        self.carcMachineName = carcMachineName
+
+        ## https://github.com/UNM-CARC/webinfo/blob/main/resource_limits.md
+        self.machineMaxProcessesTable = { "gibbs":15, "xena":15, "hopper":31, "wheeler":7 }
 
     def _helper_write_header(self, fout, minRunID, maxRunID, template_header):
         fin = open(template_header, "r")
@@ -42,14 +46,21 @@ class GenFileCarcRunScripts(GenFileGeneric):
         self._helper_write_header( f, minRunID, maxRunID, template_header )
         self._helper_write_body( f, minRunID, maxRunID )
         f.close()
-        
+
+    def _get_maxProcessesPerNode(self):
+        maxProcessesPerNode = 15  ## default, if machine name not found.
+        mName = self.carcMachineName
+        if mName in self.machineMaxProcessesTable:
+            maxProcessesPerNode = self.machineMaxProcessesTable[ mName ]
+        return maxProcessesPerNode
+    
     def write_file(self, fname_base, template_header):
         numRuns = self.p.numRuns
-        maxProcessesPerNode = 15
+        maxProcessesPerNode = self._get_maxProcessesPerNode() ## 15 default; depends on which machine is being used.
         numGroups = math.ceil( numRuns / maxProcessesPerNode )
 
         for groupID in range(0, numGroups):
-            fname = "{}_{}.sh".format(fname_base, groupID)
+            fname = "{}_{}_{}.sh".format( fname_base, groupID, self.carcMachineName )
             minRunID = groupID * maxProcessesPerNode
             maxRunID = min( numRuns, minRunID + maxProcessesPerNode )
             self._helper_write_file( fname, minRunID, maxRunID, template_header )
