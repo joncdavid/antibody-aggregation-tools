@@ -2,6 +2,6 @@
 <motion_planning>
   <MPProblem>
 
-    <environment input_env="__TMPL_EXP_NAME__.env">
+    <environment input_env="__TMPL_EXP_NAME_WITH_RUNID__.env">
       <robot Cfg_name="Cfg_free_multi_3dof" num_joints="0" pos_dof="__TMPL_POS_DOF__" dofs="__TMPL_DOFS__">
         <boundary type="bbox" translational_scale="1">

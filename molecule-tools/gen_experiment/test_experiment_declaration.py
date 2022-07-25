@@ -1,5 +1,14 @@
 import unittest
 
+#---------------------------------------------------------------------
+# file: test_experiment_declaration.py
+# author: Jon David (jdavid@cs.unm.edu)
+# date: June 2022
+# description:
+#   To test to make sure the handling of commands is correct.
+#---------------------------------------------------------------------
+
+
 from experiment_declaration import *
 from experiment_declaration import Command
 from experiment_parameters import ExperimentParameters

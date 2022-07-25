@@ -1,5 +1,15 @@
 #!/usr/bin/env python3
 
+#---------------------------------------------------------------------
+# file: genf_generic.py
+# author: Jon David (jdavid@cs.unm.edu)
+# date: June 2022
+# description:
+#   Defines the base class and provides utility methods that are used
+#   by all subclasses.
+#---------------------------------------------------------------------
+
+
 from experiment_parameters import ExperimentParameters
 from experiment_declaration import ExperimentDeclaration
 

@@ -1,0 +1,37 @@
+* The Plan
+
+We have two groups of experiments. The first group of experiments is concerned with myo1n1c's open and closed versions. The second group is concerned with myo1n and myo2n. Both groups are interested in looking at the ratios between receptors and ligands; and also the ratios between their two models.
+
+Let ReceptorLigandRatios={1:1, 2:1, 1:2}
+Let LigandsRatios={100:0, 75:25, 50:50, 25:75, 0:100}
+
+Then for both groups the experiments are ReceptorLigandRatios * LigandsRatios where "*" is the cartesian product. Each group will have |ReceptorLigandRatios| * |LigandsRatios| = 3 * 5 = 15 experiments.
+
+So in total there will be 30 experiments.
+
+* Enumerated Experiments
+This section enumerates all of the experiments.
+
+** Group 1: myo1n1c open vs closed
+| No. IgE | No. Open (V4) | No. Closed (V5) | Notes:  | ExperimientName      |
+|---------+---------------+-----------------+---------+----------------------|
+|      20 |             0 |              20 | R:L=1:1 | [[my100GrpOne20R0L20M.X][my100GrpOne20R0L20M]]  |
+|      20 |             5 |              15 |         | [[my100GrpOne20R5L15M.X][my100GrpOne20R5L15M]]  |
+|      20 |            10 |              10 |         | [[my100GrpOne20R10L10M.X][my100GrpOne20R10L10M]] |
+|      20 |            15 |               5 |         | [[my100GrpOne20R15L5M.X][my100GrpOne20R15L5M]]  |
+|      20 |            20 |               0 |         | [[./my100GrpOne20R20L0M.experiment.declaration][my100GrpOne20R20L0M]]  |
+|---------+---------------+-----------------+---------+----------------------|
+|      40 |             0 |              20 | R:L=2:1 |                      |
+|      40 |             5 |              15 |         |                      |
+|      40 |            10 |              10 |         |                      |
+|      40 |            15 |               5 |         |                      |
+|      40 |            20 |               0 |         |                      |
+|---------+---------------+-----------------+---------+----------------------|
+|      10 |             0 |              20 | R:L=1:2 |                      |
+|      10 |             5 |              15 |         |                      |
+|      10 |            10 |              10 |         |                      |
+|      10 |            15 |               5 |         |                      |
+|      10 |            20 |               0 |         |                      |
+
+
+** Grooup 2: myo2n vs myo1n

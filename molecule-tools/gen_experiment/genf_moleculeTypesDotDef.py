@@ -1,5 +1,15 @@
 #!/usr/bin/env python3
 
+#---------------------------------------------------------------------
+# file: genf_moleculeTypesDotDef.py
+# author: Jon David (jdavid@cs.unm.edu)
+# date: June 2022
+# description:
+#   Creates the file moleculeTypes.X.def, for each molecule type X
+#   defined in the input declaration file.
+#---------------------------------------------------------------------
+
+
 import sys
 
 from experiment_parameters import ExperimentParameters
@@ -29,7 +39,7 @@ if __name__ == "__main__":
     p = d.load_from_file(fname)
 
     genf = GenFileMoleculeTypesDotDef( p )
-    genf.write_all_files( ".", "moleculeType.{}.def" )
+    genf.write_all_files( ".", "moleculeTypes.{}s.def" )
     
     #for moleculeType in p.listOfMoleculeTypes:
     #    fname = "moleculeType.{}.def".format(moleculeType)
