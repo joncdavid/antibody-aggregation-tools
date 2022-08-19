@@ -1,4 +1,4 @@
-declare-experiment-name my100GrpOne20R20L00M
+declare-experiment-name my100GrpOne20R10L00M
 declare-experiment-type set
 declare-num-runs 100 ## ignored if not a set-type experiment
 declare-seed 0
@@ -11,7 +11,7 @@ declare-moleculeType-list receptor ligand
 
 # moleculeTypeID must already exist
 declare-moleculeTypeID-count 50 20
-declare-moleculeTypeID-count 1234 20
+declare-moleculeTypeID-count 1234 10
 
 # moleculeTypeID must already exist
 declare-binding-pair 50 1234

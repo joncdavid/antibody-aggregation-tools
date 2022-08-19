@@ -1,0 +1,16 @@
+#PBS -l nodes=1:ppn=16
+#PBS -l walltime=72:00:00
+#PBS -N __TMPL_EXP_NAME__-__TMPL_MINRUN__-__TMPL_MAXRUN__
+#PBS -S /bin/bash
+
+##lpgcmd=./lpgcmd
+##echo "lpgcmd: $lpgcmd"
+echo "PBS_O_WORKDIR: $PBS_O_WORKDIR"
+echo ""
+
+##PBS_O_WORKDIR=.  ### if not working on Gibbs, then uncomment this; if working on Gibbs, comment it.
+
+projname=__TMPL_EXP_NAME__
+basedir=./$projname/$projname  ## relative to $PBS_O_WORKDIR
+exe=$PBS_O_WORKDIR/../molecule
+

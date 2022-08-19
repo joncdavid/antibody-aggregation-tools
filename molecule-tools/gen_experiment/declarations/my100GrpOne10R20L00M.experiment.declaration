@@ -1,4 +1,4 @@
-declare-experiment-name my100GrpOne20R20L00M
+declare-experiment-name my100GrpOne10R20L00M
 declare-experiment-type set
 declare-num-runs 100 ## ignored if not a set-type experiment
 declare-seed 0
@@ -10,7 +10,7 @@ declare-moleculeTypeID-list 50 1234
 declare-moleculeType-list receptor ligand
 
 # moleculeTypeID must already exist
-declare-moleculeTypeID-count 50 20
+declare-moleculeTypeID-count 50 10
 declare-moleculeTypeID-count 1234 20
 
 # moleculeTypeID must already exist
@@ -24,3 +24,4 @@ assign-moleculeTypeID-to-moleculeType 1234 ligand
 # optional, will read from database file if basename not defined here
 assign-moleculeTypeID-to-basename 50 igefceri_0.1_0.00
 assign-moleculeTypeID-to-basename 1234 myo1n1cV4
+

@@ -15,6 +15,7 @@ import os
 from experiment_parameters import ExperimentParameters
 from experiment_declaration import ExperimentDeclaration
 from genf_carc_run_scripts import GenFileCarcRunScripts
+from genf_carc_pkgData_script import GenFileCarcPkgDataScript
 from genf_moleculeDetailsDotT import GenFileMoleculeDetailsDotT
 from genf_experimentNameDotEnv import GenFileExperimentNameDotEnv
 from genf_experimentNameVDotEnv import GenFileExperimentNameVDotEnv
@@ -23,14 +24,24 @@ from genf_bindingDefinitionsDotDef import GenFileBindingDefinitionsDotDef
 from genf_moleculeTypesDotDef import GenFileMoleculeTypesDotDef
 
 
-def populate_runDir( p, runDir ):
-    """Populates the base directory with CARC run scripts."""
-    fname_base = "{}/{}".format(runDir, p.experimentName)
-    template_file = "./template_files/carc_run_script.sh.template.header"
-    genf = GenFileCarcRunScripts( p )
-    genf.write_file( fname_base, template_file )
 
-def populate_runIDDir( p, runIDDir, runID ):
+def populate_runDir( p, runDir, carcMachineName ):
+    """Populates the base directory with CARC run scripts."""
+    fname_run_base = "{}/{}".format(runDir, p.experimentName)
+    fname_pkgResults_base = "{}".format( runDir )
+    
+    template_run_file = "./template_files/carc_run_script.sh.template.header.{}".format( carcMachineName )
+    template_pkgResults_file = "./template_files/carc_pkgResults_script.sh.template"
+    
+    genf_run = GenFileCarcRunScripts( p, carcMachineName )
+    genf_pkgResults = GenFileCarcPkgDataScript( p )
+    
+    genf_run.write_file( fname_run_base, template_run_file )
+    genf_pkgResults.write_file( fname_run_base, template_pkgResults_file )
+
+    
+
+def populate_runIDDir( p, runIDDir, runID, carcMachineName ):
     experimentName = p.experimentName
     tmpl_xml_header = "./template_files/experimentName.xml.template.header"
     tmpl_xml_footer = "./template_files/experimentName.xml.template.footer"
@@ -51,7 +62,7 @@ def populate_runIDDir( p, runIDDir, runID ):
     genf_bindingDefinitionsDotDef.write_file( "{}/bindingDefinitions.def".format( runIDDir ) )
     genf_moleculeTypesDotDef.write_all_files( runIDDir, "moleculeTypes.{}s.def")  ## note: the s before s.def...
 
-def create_dirStructure( p ):
+def create_dirStructure( p, carcMachineName ):
     """p is an ExperimentParameters object."""
     experimentName = p.experimentName
     runDir = "./Experiment/run-{}/".format( experimentName )
@@ -60,7 +71,7 @@ def create_dirStructure( p ):
         os.makedirs( baseDir )
     except FileExistsError as e:
         print( "[Warning] directory {} already exists...".format( baseDir ))
-    populate_runDir( p, runDir )
+    populate_runDir( p, runDir, carcMachineName )
         
     numRuns = p.numRuns
     for runID in range(0, numRuns):
@@ -70,7 +81,7 @@ def create_dirStructure( p ):
             os.makedirs( runIDDir )
         except FileExistsError as e:
             print( "[Warning] directory {} already exists...".format( runIDDir ))
-        populate_runIDDir( p, runIDDir, runID )
+        populate_runIDDir( p, runIDDir, runID, carcMachineName )
     return baseDir
 
 def main():
@@ -79,12 +90,17 @@ def main():
         exit(1)
         
     fname = sys.argv[1]
+
+    carcMachineName = "gibbs"  ## default
+    if len(sys.argv) >= 2:
+        carcMachineName = sys.argv[2]    
+
     d = ExperimentDeclaration()
     p = d.load_from_file( fname )
 
     #p.print_summary()
 
-    create_dirStructure( p )
+    create_dirStructure( p, carcMachineName )
     
     return
 
