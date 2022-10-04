@@ -13,7 +13,7 @@ outTarFName=$resultsOnly.tar
 cd $PBS_O_WORKDIR   ## comment me if not submitted via qsub.
 
 mkdir $resultsOnly   ## create directory if it doesn't already exist
-time nice find . -name "*.m" -o -name "*.data" -o "*.fl" | xargs cp --parents -t $resultsOnly
+time nice find . -name "output.txt" -o -name "*.data" -o -name "*.fl" | xargs cp --parents -t $resultsOnly
 tar cf $outTarFName $resultsOnly
 
 echo "Finished copying ALL m-files to: " $resultsOnly

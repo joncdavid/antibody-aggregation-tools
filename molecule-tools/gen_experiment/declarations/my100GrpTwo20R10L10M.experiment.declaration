@@ -1,0 +1,31 @@
+declare-experiment-name my100GrpTwo20R10L10M
+declare-experiment-type set
+declare-num-runs 100 ## ignored if not a set-type experiment
+declare-seed 0
+declare-max-timesteps 500000
+declare-min-xz -100
+declare-max-xz 100
+
+declare-moleculeTypeID-list 50 1236 1237
+declare-moleculeType-list receptor ligand
+
+# moleculeTypeID must already exist
+declare-moleculeTypeID-count 50 20
+declare-moleculeTypeID-count 1236 10
+declare-moleculeTypeID-count 1237 10
+
+# moleculeTypeID must already exist
+declare-binding-pair 50 1236
+declare-binding-pair 50 1237
+
+# moleculeTypeID must already exist
+# moleculeType must already exist
+assign-moleculeTypeID-to-moleculeType 50 receptor
+assign-moleculeTypeID-to-moleculeType 1236 ligand
+assign-moleculeTypeID-to-moleculeType 1237 ligand
+
+# optional, will read from database file if basename not defined here
+assign-moleculeTypeID-to-basename 50 igefceri_0.1_0.00
+assign-moleculeTypeID-to-basename 1236 myo2nV5
+assign-moleculeTypeID-to-basename 1237 myo1nV4
+

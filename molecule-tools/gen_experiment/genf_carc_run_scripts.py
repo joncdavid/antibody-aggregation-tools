@@ -24,7 +24,7 @@ class GenFileCarcRunScripts(GenFileGeneric):
         self.carcMachineName = carcMachineName
 
         ## https://github.com/UNM-CARC/webinfo/blob/main/resource_limits.md
-        self.machineMaxProcessesTable = { "gibbs":15, "xena":15, "hopper":31, "wheeler":7 }
+        self.machineMaxProcessesTable = { "gibbs":15, "xena":15, "hopper":31, "wheeler":7, "ltgroup":5 }
 
     def _helper_write_header(self, fout, minRunID, maxRunID, template_header):
         fin = open(template_header, "r")
