@@ -1,0 +1,26 @@
+declare-experiment-name my100Jan23mbafc1n1a32R8L
+declare-experiment-type set
+declare-num-runs 100 ## ignored if not a set-type experiment
+declare-seed 0
+declare-max-timesteps 500000
+declare-min-xz -100
+declare-max-xz 100
+
+declare-moleculeTypeID-list 50 1302
+declare-moleculeType-list receptor ligand
+
+# moleculeTypeID must already exist
+declare-moleculeTypeID-count 50 32
+declare-moleculeTypeID-count 1302 8
+
+# moleculeTypeID must already exist
+declare-binding-pair 50 1302
+
+# moleculeTypeID must already exist
+# moleculeType must already exist
+assign-moleculeTypeID-to-moleculeType 50 receptor
+assign-moleculeTypeID-to-moleculeType 1302 ligand
+
+# optional, will read from database file if basename not defined here
+assign-moleculeTypeID-to-basename 50 igefceri_0.1_0.00
+assign-moleculeTypeID-to-basename 1302 mbafc1n1a
